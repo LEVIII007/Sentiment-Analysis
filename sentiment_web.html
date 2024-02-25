@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Sentiment Analysis</h1>
+    <form id="sentiment-form">
+        <textarea id="text-input" rows="4" cols="50"></textarea>
+        <input type="submit" value="Predict">
+    </form>
+    <p id="prediction"></p>
+    <p id="probability"></p>
+
+    <script>
+    $("#sentiment-form").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: 'http://localhost:5000/predict',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({text: $("#text-input").val()}),
+            success: function(data) {
+                $("#prediction").text("Prediction: " + data.prediction);
+                $("#probability").text("Probability: " + data.probability);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
